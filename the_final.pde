@@ -1,6 +1,7 @@
 import blobDetection.*;
 import peasy.*;
 PeasyCam cam;
+Flower[] b = new Flower [20];
 
 PImage img;
 
@@ -19,11 +20,16 @@ BlobDetection[] theBlobDetection = new BlobDetection[int(levels)];
 void setup() {
   size(1300, 1000, P3D); 
 
-  img = loadImage("heightmap.gif");           // heightmap 
+  img = loadImage("heightmap.gif");           // heightmap 256 x 256
   cam = new PeasyCam(this, 1000);
   colorMode(HSB, 360, 100, 100);   //HSB color mode 
 
+  for (int i =0; i < b.length; i++) {
 
+    //set random values to window of contour map so that it stays within those bounds (256 x 256)
+    b[i] = new Flower(random(0, 256), random(0, 256), random(10, 30), random(50, 100));
+    b[i].display();
+  }
 
   //Computing Blobs with different thresholds 
   for (int i=0; i<levels; i++) {
@@ -41,11 +47,15 @@ void setup() {
 void draw() { 
   background(0);
   translate(-img.width*factor, -img.height*factor);
-
   for (int i=0; i<levels; i++) {
     translate(0, 0, elevation/levels);  
     drawContours(i);
   }
+  
+//if flower.mousePressed{
+// make flower disappear
+//}
+
 }
 
 //uses blob detection to create elevations 
